@@ -10,7 +10,7 @@ app.post('/api/runTasks', async (req, res, next) => {
 
     for (let i = 0; i < taskIds.length; i++) {
         if (!TaskRunner.hasTask(taskIds[i])) {
-            res.status(404).json({ "error": "no Task" });
+            return res.status(404).json({ "error": "no Task" });
         }
     }
 
@@ -20,11 +20,11 @@ app.post('/api/runTasks', async (req, res, next) => {
             resOrder.push(taskIds.indexOf(taskId));
 
             if (resOrder.length == taskIds.length) {
-                res.status(200).json(getResult(resOrder));
+                return res.status(200).json(getResult(resOrder));
             }
         })    
     } catch (error) {
-        next(error);
+        return next(error);
     }
 });
 
