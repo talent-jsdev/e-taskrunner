@@ -9,20 +9,17 @@ app.post('/api/runTasks', async (req, res, next) => {
     let resOrder = [];
 
     try {
-        taskIds.forEach(taskId => {
+        taskIds.forEach(async taskId => {
             if (!TaskRunner.hasTask(taskId)) {
                 res.status(404).json({ "error": "no Task" });
             }
 
-            TaskRunner.runTask(taskId)
-                .then(() => {
-                    resOrder.push(taskIds.indexOf(taskId));
+            await TaskRunner.runTask(taskId)
+            resOrder.push(taskIds.indexOf(taskId));
 
-                    if (resOrder.length == taskIds.length) {
-                        res.status(200).json(getResult(resOrder));
-                    }
-                })
-                .catch(err => next(err))
+            if (resOrder.length == taskIds.length) {
+                res.status(200).json(getResult(resOrder));
+            }
         })
 
     } catch (error) {
@@ -34,7 +31,7 @@ const getResult = (order) => {
     let res = [0];
 
     for (let i = 1; i < order.length; i++) {
-        for(let j = 0; j < i; j++) {
+        for (let j = 0; j < i; j++) {
             if (order.indexOf(i) < order.indexOf(j)) {
                 res.push(-1);
                 break;
