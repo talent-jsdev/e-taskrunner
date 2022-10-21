@@ -13,8 +13,8 @@ The array consists of IDs of the tasks that need to be run.
 
 You will be provided with a TaskRunner service which has the following methods:
 
-runTask(id: string): Promise<undefined>
-hasTask(id: string): boolean
+    - runTask(id: string): Promise<undefined>
+    - hasTask(id: string): boolean
 
 The runTask method is asynchronous and returns a promise which might resolve after a random period of time. A request to the endpoint should initiate the execution of all tasks at the same time, so that they can work in parallel, and should return a response as soon as all tasks have been finished. It is supposed to return an array that has the same length as the taskIds array and that represents the order in which the tasks have finished in the following way:
 
